@@ -6,6 +6,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         node: ['22', '24', '26']
     steps:
@@ -15,4 +16,7 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: npm ci
       - run: sudo apt-get install xvfb
-      - run: xvfb-run npm test
+      # Ubuntu 24.04 runners block unprivileged user namespaces, which Chromium
+      # needs for its sandbox. Without this Electron aborts on the SUID helper.
+      - run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+      - run: xvfb-run --auto-servernum npm test

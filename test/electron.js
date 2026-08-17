@@ -12,7 +12,7 @@ test('electron', async function (t) {
 
     browser.pipe(
       concat(function (data) {
-        assert(!/electron\.asar/.test(data.toString()))
+        assert.strictEqual(data.toString(), 'undefined\n')
         if (++eventCount === 2) done()
       })
     )
@@ -22,7 +22,7 @@ test('electron', async function (t) {
       if (++eventCount === 2) done()
     })
 
-    browser.write('console.log(__dirname);')
+    browser.write('console.log(typeof require);')
     browser.write('window.close();')
     browser.end()
   })
@@ -36,7 +36,7 @@ test('electron', async function (t) {
 
     browser.pipe(
       concat(function (data) {
-        assert(/browser-run/.test(data.toString()))
+        assert.strictEqual(data.toString(), 'function\n')
         if (++eventCount === 2) done()
       })
     )
@@ -46,7 +46,7 @@ test('electron', async function (t) {
       if (++eventCount === 2) done()
     })
 
-    browser.write('console.log(__dirname);')
+    browser.write('console.log(typeof require);')
     browser.write('window.close();')
     browser.end()
   })
