@@ -14,8 +14,9 @@
   "scripts": {
     "build": "browserify browser/reporter.js -o static/reporter.js",
     "prepublish": "npm run build",
+    "pretest": "install-electron",
     "release": "np",
-    "pretest": "npm run build"
+    "test": "node --test"
   },
   "dependencies": {
     "browser-launcher": "^4.0.0",
