@@ -1,20 +1,20 @@
-var test = require('test');
-var assert = require('assert');
-var run = require('..');
+var test = require('node:test')
+var assert = require('assert')
+var run = require('..')
 
 test('empty', function (t, done) {
-  var browser = run();
+  var browser = run()
 
   browser.on('data', function (data) {
-    throw new Error(data.toString());
-  });
+    throw new Error(data.toString())
+  })
 
   browser.on('error', function (err) {
-    browser.stop();
-    assert(err);
-    done();
-  });
+    browser.stop()
+    assert(err)
+    done()
+  })
 
-  browser.write('  ');
-  browser.end();
-});
+  browser.write('  ')
+  browser.end()
+})
